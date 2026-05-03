@@ -1,0 +1,10 @@
+# 仅用于 compose 在 webCursor 根目录为 context 构建 clientCoder / phoneCoder 镜像
+**/node_modules
+**/dist
+**/data
+**/.env
+
+dockerBot.bak-mini
+clientCoder.bak-mini
+
+.git

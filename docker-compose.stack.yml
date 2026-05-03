@@ -1,0 +1,74 @@
+# 资源均位于 webCursor 目录内；在本目录执行 ./scripts/docker-stack.sh
+name: webcursor-stack
+
+services:
+  dockerbot-agent:
+    build:
+      context: ./dockerBot
+      dockerfile: agent.Dockerfile
+      args:
+        PHONEBOT_AGENT_UID: ${PHONEBOT_AGENT_UID:-1000}
+    container_name: phonebot-agent
+    restart: unless-stopped
+    environment:
+      - DOCKER_API_VERSION=1.44
+    volumes:
+      - ./dockerBot/data/projects:/workspace
+      - ./dockerBot/data/claude-home:/home/phonebot/.claude
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - webcursor
+
+  dockerbot-api:
+    build:
+      context: ./dockerBot
+      dockerfile: Dockerfile
+    container_name: phonebot-api-stack
+    restart: unless-stopped
+    env_file:
+      - ./dockerBot/.env
+    environment:
+      - PORT=8080
+      - PHONEBOT_DATA_DIR=/app/data
+      - PHONEBOT_SANDBOX_CONTAINER=phonebot-agent
+      - PHONEBOT_SANDBOX_WORKDIR_BASE=/workspace
+      - DOCKER_API_VERSION=1.44
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dockerBot/data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - dockerbot-agent
+    networks:
+      - webcursor
+
+  clientcoder-nginx:
+    build:
+      context: .
+      dockerfile: docker/clientCoder.nginx.Dockerfile
+    container_name: clientcoder-nginx
+    restart: unless-stopped
+    ports:
+      - "5371:80"
+    depends_on:
+      - dockerbot-api
+    networks:
+      - webcursor
+
+  phonecoder-web:
+    build:
+      context: .
+      dockerfile: docker/phoneCoder.nginx.Dockerfile
+    container_name: phonecoder-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - dockerbot-api
+    networks:
+      - webcursor
+
+networks:
+  webcursor:
+    driver: bridge
