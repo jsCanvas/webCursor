@@ -35,7 +35,7 @@ chmod +x ./scripts/docker-stack.sh   # 仅首次需要 获取权限
 |------|-----|------|
 | 服务端 dockerBot API | `http://127.0.0.1:8080/api` | REST/SSE 等接口基路径 |
 | WEB端 clientCoder（Nginx） | `http://127.0.0.1:5371` | 前端静态站点；`/api/*` **反向代理**到 Docker 网络内的 dockerBot API |
-| 移动端 phoneCoder Web | `http://127.0.0.1:3000` | 静态 Web 客户端 |
+| 移动端 phoneCoder Web | `http://127.0.0.1:8081` | 静态 Web 客户端 |
 
 ### 客户端里的「后端地址」建议
 

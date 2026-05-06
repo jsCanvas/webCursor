@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 一键启动 / 停止：dockerBot:8080 → clientCoder+Nginx:5371 → phoneCoder Web:3000
+# 一键启动 / 停止：dockerBot:8080 → clientCoder+Nginx:5371 → phoneCoder Web:8081
 #
 # 用法：
 #   ./scripts/docker-stack.sh          # 后台构建并启动（默认）
@@ -95,7 +95,7 @@ up)
   log "就绪："
   log "  - dockerBot API:     http://127.0.0.1:8080/api"
   log "  - clientCoder (代理): http://127.0.0.1:5371 （/api → dockerBot）"
-  log "  - phoneCoder Web:    http://127.0.0.1:3000 （设置里 dockerBot API 指向 http://<宿主机>:8080/api）"
+  log "  - phoneCoder Web:    http://127.0.0.1:8081 （设置里 dockerBot API 指向 http://<宿主机>:8080/api）"
   ;;
 *)
   die "未知子命令: ${subcmd}（可用: up, fg, down, logs …）"

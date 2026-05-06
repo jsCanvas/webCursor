@@ -10,4 +10,4 @@ RUN npx expo export -p web
 FROM nginx:1.27-alpine
 COPY nginx/phoneCoder.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /build/phoneCoder/dist /usr/share/nginx/html
-EXPOSE 3000
+EXPOSE 8081

@@ -36,7 +36,7 @@ On first run, if `dockerBot/.env` is missing it is copied from `dockerBot/.env.e
 |------|-----|------|
 | Server-side dockerBot API | `http://127.0.0.1:8080/api` | Base path for REST, SSE, etc. |
 | Web clientCoder (Nginx) | `http://127.0.0.1:5371` | Static app; **`/api/*`** is **reverse proxied** to dockerBot API on the Compose network |
-| Mobile phoneCoder Web | `http://127.0.0.1:3000` | Static web client |
+| Mobile phoneCoder Web | `http://127.0.0.1:8081` | Static web client |
 
 ### Suggested backend URL in clients
 
